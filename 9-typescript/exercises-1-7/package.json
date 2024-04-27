@@ -12,6 +12,7 @@
   "author": "MA",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^20.12.7",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
