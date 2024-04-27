@@ -17,6 +17,6 @@ const calculateBmi = (height: number, weight: number) => {
   } else {
     return 'Obese (Class III)';
   }
-}
+};
 
 console.log(calculateBmi(180, 74));
