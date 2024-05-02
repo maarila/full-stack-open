@@ -1,4 +1,4 @@
-import calculateBmi from './calculateBmi'
+import calculateBmi from './calculateBmi';
 
 try {
   if (process.argv.length < 4) throw new Error('Not enough arguments');
