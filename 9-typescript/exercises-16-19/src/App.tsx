@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
-import { DiaryEntry, HeaderProps, DiaryProps } from './types';
+import { DiaryEntry, HeaderProps, DiaryProps, ErrorProps } from './types';
 import axios from 'axios';
 
 function App() {
   const [diaryData, setDiaryData] = useState<DiaryEntry[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(
+    undefined
+  );
   const [newDate, setNewDate] = useState<string>('');
   const [newVisibility, setNewVisibility] = useState<string>('');
   const [newWeather, setNewWeather] = useState<string>('');
@@ -35,25 +38,38 @@ function App() {
     ));
   };
 
-  const addDiaryEntry = (event: React.SyntheticEvent) => {
-    event.preventDefault();
-    const newDiaryEntry = {
-      date: newDate,
-      weather: newWeather,
-      visibility: newVisibility,
-      comment: newComment,
-    };
+  const Error = (props: ErrorProps) => {
+    return <p style={{ color: 'red' }}>{props.errorMessage}</p>;
+  };
 
-    axios
-      .post<DiaryEntry>('http://localhost:3000/api/diaries', newDiaryEntry)
-      .then((response) => {
-        setDiaryData([...diaryData, response.data]);
-      });
+  const addDiaryEntry = async (event: React.SyntheticEvent) => {
+    try {
+      event.preventDefault();
+      if (errorMessage) setErrorMessage(undefined);
 
-    setNewDate('');
-    setNewVisibility('');
-    setNewWeather('');
-    setNewComment('');
+      const newDiaryEntry = {
+        date: newDate,
+        weather: newWeather,
+        visibility: newVisibility,
+        comment: newComment,
+      };
+
+      const response = await axios.post<DiaryEntry>(
+        'http://localhost:3000/api/diaries',
+        newDiaryEntry
+      );
+
+      setDiaryData([...diaryData, response.data]);
+
+      setNewDate('');
+      setNewVisibility('');
+      setNewWeather('');
+      setNewComment('');
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        setErrorMessage(error.response.data);
+      }
+    }
   };
 
   const handleDateChange = (event: React.SyntheticEvent) => {
@@ -75,6 +91,7 @@ function App() {
   return (
     <div>
       <Header title="Add new entry" />
+      {errorMessage ? <Error errorMessage={errorMessage} /> : ''}
       <form onSubmit={addDiaryEntry}>
         date
         <input value={newDate} onChange={handleDateChange} />

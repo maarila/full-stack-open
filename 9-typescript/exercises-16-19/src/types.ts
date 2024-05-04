@@ -1,10 +1,13 @@
-
 export interface HeaderProps {
   title: string;
 }
 
 export interface DiaryProps {
   entries: DiaryEntry[];
+}
+
+export interface ErrorProps {
+  errorMessage: string;
 }
 
 export interface DiaryEntry {
