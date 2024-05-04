@@ -37,17 +37,19 @@ function App() {
 
   const addDiaryEntry = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    const ids = diaryData.map((entry) => entry.id);
-    const highestId = Math.max(...ids);
     const newDiaryEntry = {
-      id: highestId + 1,
       date: newDate,
       weather: newWeather,
       visibility: newVisibility,
       comment: newComment,
     };
-    const newDiaryData = [...diaryData, newDiaryEntry];
-    setDiaryData(newDiaryData);
+
+    axios
+      .post<DiaryEntry>('http://localhost:3000/api/diaries', newDiaryEntry)
+      .then((response) => {
+        setDiaryData([...diaryData, response.data]);
+      });
+
     setNewDate('');
     setNewVisibility('');
     setNewWeather('');
