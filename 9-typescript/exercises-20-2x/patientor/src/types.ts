@@ -20,8 +20,8 @@ export interface Patient {
   entries: Entry[];
 }
 
-export interface PatientProps {
-  patient: Patient | null;
+export interface PatientPageProps {
+  diagnoses: Diagnosis[] | null;
 }
 
 export type PatientFormValues = Omit<Patient, 'id' | 'entries'>;
