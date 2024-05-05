@@ -65,6 +65,17 @@ function App() {
       setNewVisibility('');
       setNewWeather('');
       setNewComment('');
+
+      const visibilityRadioButtons = document.getElementsByName(
+        'visibility'
+      ) as NodeListOf<HTMLInputElement>;
+
+      const weatherRadioButtons = document.getElementsByName(
+        'weather'
+      ) as NodeListOf<HTMLInputElement>;
+
+      visibilityRadioButtons.forEach((button) => (button.checked = false));
+      weatherRadioButtons.forEach((button) => (button.checked = false));
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         setErrorMessage(error.response.data);
@@ -76,12 +87,12 @@ function App() {
     setNewDate((event.target as HTMLInputElement).value);
   };
 
-  const handleVisibilityChange = (event: React.SyntheticEvent) => {
-    setNewVisibility((event.target as HTMLInputElement).value);
+  const handleVisibilityChange = (visibility: string) => {
+    setNewVisibility(visibility);
   };
 
-  const handleWeatherChange = (event: React.SyntheticEvent) => {
-    setNewWeather((event.target as HTMLInputElement).value);
+  const handleWeatherChange = (weather: string) => {
+    setNewWeather(weather);
   };
 
   const handleCommentChange = (event: React.SyntheticEvent) => {
@@ -94,13 +105,63 @@ function App() {
       {errorMessage ? <Error errorMessage={errorMessage} /> : ''}
       <form onSubmit={addDiaryEntry}>
         date
-        <input value={newDate} onChange={handleDateChange} />
+        <input type="date" value={newDate} onChange={handleDateChange} />
         <br></br>
-        visibility
-        <input value={newVisibility} onChange={handleVisibilityChange} />
+        visibility&nbsp;&nbsp; great{' '}
+        <input
+          type="radio"
+          name="visibility"
+          onChange={() => handleVisibilityChange('great')}
+        />
+        good{' '}
+        <input
+          type="radio"
+          name="visibility"
+          onChange={() => handleVisibilityChange('good')}
+        />
+        ok{' '}
+        <input
+          type="radio"
+          name="visibility"
+          onChange={() => handleVisibilityChange('ok')}
+        />
+        poor{' '}
+        <input
+          type="radio"
+          name="visibility"
+          onChange={() => handleVisibilityChange('poor')}
+        />
         <br></br>
-        weather
-        <input value={newWeather} onChange={handleWeatherChange} />
+        weather&nbsp;&nbsp; sunny{' '}
+        <input
+          type="radio"
+          name="weather"
+          onChange={() => handleWeatherChange('sunny')}
+        />
+        rainy{' '}
+        <input
+          type="radio"
+          name="weather"
+          onChange={() => handleWeatherChange('rainy')}
+        />
+        cloudy{' '}
+        <input
+          type="radio"
+          name="weather"
+          onChange={() => handleWeatherChange('cloudy')}
+        />
+        stormy{' '}
+        <input
+          type="radio"
+          name="weather"
+          onChange={() => handleWeatherChange('stormy')}
+        />
+        windy{' '}
+        <input
+          type="radio"
+          name="weather"
+          onChange={() => handleWeatherChange('windy')}
+        />
         <br></br>
         comment
         <input value={newComment} onChange={handleCommentChange} />
