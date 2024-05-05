@@ -37,6 +37,17 @@ const PatientPage = () => {
         <span></span>
         <div>ssh: {patient.ssn}</div>
         <div>occupation: {patient.occupation}</div>
+        <h3>entries</h3>
+        {patient.entries.map((entry) => (
+          <div key={entry.id}>
+            {entry.date} <em>{entry.description}</em>
+            <ul>
+              {entry.diagnosisCodes?.map((code) => (
+                <li key={code}>{code}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     );
 };
